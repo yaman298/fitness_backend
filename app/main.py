@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
+from pydantic import BaseModel
 
 load_dotenv()
 
@@ -39,6 +40,12 @@ class User(Base):
 
     password: Mapped[str] = mapped_column(String(255))
 
+class CreateUserRequest(BaseModel):
+    username: str
+    email: str
+    password: str
+
+
 
 
 app = FastAPI()
@@ -59,9 +66,9 @@ async def home(request: Request):
     )
 
 @app.post("/create_account", tags=["authentication"])
-async def create_account():
+async def create_account(CreateUserRequest):
     return {
-        "message":"user created"
+        "message": CreateUserRequest.email
     }
 
 
