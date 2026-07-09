@@ -66,7 +66,7 @@ async def home(request: Request):
     )
 
 @app.post("/create_account", tags=["authentication"])
-async def create_account(CreateUserRequest):
+async def create_account(user : CreateUserRequest):
     return {
         "message": CreateUserRequest.email
     }
